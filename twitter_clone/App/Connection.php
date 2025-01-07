@@ -6,7 +6,7 @@
         public static function getDb() {
             try {
                 $connection = new \PDO(
-                    "mysql:host=localhost;dbname=;charset=utf8",
+                    "mysql:host=localhost;dbname=twitter_clone;charset=utf8",
                     "root",
                     ""
                 );
