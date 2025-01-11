@@ -82,14 +82,40 @@
         }
 
         public function getAll() {
-            $query = "SELECT id, nome, email FROM usuarios WHERE nome LIKE :nome";
+            $query = "SELECT u.id, u.nome, u.email, 
+                (SELECT count(*) FROM usuarios_seguidores AS us WHERE us.id_usuario = :id_usuario AND us.id_usuario_seguindo = u.id) AS seguindo_sn 
+                FROM usuarios AS u WHERE u.nome LIKE :nome AND u.id != :id_usuario"
+            ;
             $st =  $this->db->prepare($query);
 
             $st->bindValue(":nome", "%" . $this->__get("nome") . "%");
+            $st->bindValue(":id_usuario", $this->__get("id"));
 
             $st->execute();
 
             return $st->fetchAll(\PDO::FETCH_ASSOC);
+        }
+
+        public function seguirUsuario($id_usuario_seguindo) {
+            $query = "INSERT INTO usuarios_seguidores(id_usuario, id_usuario_seguindo) VALUES(:id_usuario, :id_usuario_seguindo)";
+            $st =  $this->db->prepare($query);
+            $st->bindValue(":id_usuario", $this->__get("id"));
+            $st->bindValue(":id_usuario_seguindo", $id_usuario_seguindo);
+
+            $st->execute();
+
+            return true;
+        }
+
+        public function deixarSeguirUsuario($id_usuario_seguindo) {
+            $query = "DELETE FROM usuarios_seguidores WHERE id_usuario = :id_usuario AND id_usuario_seguindo = :id_usuario_seguindo";
+            $st =  $this->db->prepare($query);
+            $st->bindValue(":id_usuario", $this->__get("id"));
+            $st->bindValue(":id_usuario_seguindo", $id_usuario_seguindo);
+
+            $st->execute();
+
+            return true;
         }
     }
 
