@@ -40,6 +40,8 @@
                     usuarios as u ON (t.id_usuario = u.id)
                 WHERE 
                     t.id_usuario = :id_usuario
+                OR
+                    t.id_usuario in (SELECT id_usuario_seguindo FROM usuarios_seguidores WHERE id_usuario = :id_usuario)
                 ORDER BY
                     t.data desc
             ";
