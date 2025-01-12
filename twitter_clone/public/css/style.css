@@ -30,6 +30,10 @@ i {
     margin: 0px 20px 0px 0px;
 }
 
+.paginacao {
+    justify-content: center;
+}
+
 .banner {
 	height: 100%;
 	background-color: #1da1f2;
