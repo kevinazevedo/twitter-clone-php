@@ -100,6 +100,18 @@
 
             header("location: /quem_seguir");
         }
+
+        public function remover() {
+            $this->validaAutenticacao();
+
+            $tweet = Container::getModel("Tweet");
+            $tweet_id = array_keys($_POST);
+            $tweet->__set("id", $tweet_id[0]);
+            
+            $tweet->remover($tweet->__get("id"));
+            
+            header("location: /timeline");
+        }
     }
 
 ?>

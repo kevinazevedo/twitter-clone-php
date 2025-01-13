@@ -30,6 +30,16 @@
             return $this;
         }
 
+        // remover
+        public function remover($tweet_id) {
+            $query = "DELETE FROM tweets WHERE id = :tweet_id";
+            $st = $this->db->prepare($query);
+            $st->bindValue(":tweet_id", $tweet_id);
+            $st->execute();
+
+            return $this;
+        }
+
         // recuperar
         public function getAll() {
             $query = "SELECT 
